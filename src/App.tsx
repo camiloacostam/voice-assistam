@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 // import usePermissions from "./hooks/usePermissions";
 import "./App.css";
+import SmileIcon from "./assets/smileIcon";
+import MicrophoneIcon from "./assets/MicrophoneIcon";
 
 function App() {
   const [isListening, setIsListening] = useState<boolean>(false);
@@ -26,21 +28,30 @@ function App() {
     });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-      <button
-        onClick={() => {
-          !isListening && mediaController
-            ? mediaController.start()
-            : mediaController && mediaController.stop();
-          setIsListening(!isListening);
-        }}
-      >
-        {isListening ? "Recording" : "Record"}
-      </button>
-      {audioRecorded && (
-        <audio src={URL.createObjectURL(audioRecorded)} controls />
-      )}
-    </div>
+    <main>
+      <SmileIcon size={12} fill="#33FF33" />
+      <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <button
+          onClick={() => {
+            !isListening && mediaController
+              ? mediaController.start()
+              : mediaController && mediaController.stop();
+            setIsListening(!isListening);
+          }}
+          className={isListening ? "stopRecordButton" : "recordButton"}
+        >
+          <MicrophoneIcon
+            size={2}
+            fill={isListening ? "#ff3333" : "#33ff33"}
+            id="microphoneIcon"
+          />
+          {isListening ? "I'm listening" : "Start listening"}
+        </button>
+        {audioRecorded && (
+          <audio src={URL.createObjectURL(audioRecorded)} controls />
+        )}
+      </div>
+    </main>
   );
 }
 
